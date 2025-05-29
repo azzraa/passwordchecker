@@ -15,7 +15,7 @@ void print_hash_bytes(unsigned char hash[SHA256_DIGEST_LENGTH]) {
 }
 
 int main() {
-    const char *password = "secret";
+    const char *password = "password";
     const char *salt = "random_salt";
     char combined[256];
     unsigned char hash[SHA256_DIGEST_LENGTH];
