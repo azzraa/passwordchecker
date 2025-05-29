@@ -18,6 +18,7 @@ brew install openssl@3
 ```text
 passwordchecker/
 ├── password_checker.c
+├── hash_generator.c
 └── README.md
 ```
 
@@ -37,6 +38,59 @@ Access Granted
 Enter password: wrongpass  
 Access Denied
 ```
+
+### 🔨 How to Generate the Stored Hash (hash_generator.c)
+
+You can create a small helper program to generate the SHA-256 hash for any password + salt combination and print the raw bytes for use in your main program:
+
+```bash
+#include <stdio.h>
+#include <string.h>
+#include <openssl/sha.h>
+
+void sha256(const char *str, unsigned char output[SHA256_DIGEST_LENGTH]) {
+    SHA256((unsigned char *)str, strlen(str), output);
+}
+
+void print_hash_bytes(unsigned char hash[SHA256_DIGEST_LENGTH]) {
+    printf("{\n    ");
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        printf("0x%02x", hash[i]);
+        if (i != SHA256_DIGEST_LENGTH - 1) printf(", ");
+        if ((i + 1) % 8 == 0) printf("\n    ");
+    }
+    printf("\n};\n");
+}
+
+int main() {
+    const char *password = "secret";
+    const char *salt = "random_salt";
+    char salted[256];
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+
+    snprintf(salted, sizeof(salted), "%s%s", password, salt);
+    sha256(salted, hash);
+
+    printf("Hash bytes for \"%s%s\":\n", password, salt);
+    print_hash_bytes(hash);
+
+    return 0;
+}
+```
+
+Compile and run:
+```bash
+gcc hash_generator.c -o hash_generator \
+  -I/opt/homebrew/opt/openssl@3/include \
+  -L/opt/homebrew/opt/openssl@3/lib \
+  -lssl -lcrypto
+```
+
+```bash
+./hash_generator
+```
+
+It will print out the hash byte array, which you can copy and paste as stored_hash in your password_checker.c.
 
 ### 📄 password_checker.c
 
@@ -86,6 +140,21 @@ int main() {
 }
 ```
 
+### 🛠️ Build & Run
+
+**Compile the program:**
+```bash
+cc password_checker.c -o password_checker \
+  -I/opt/homebrew/opt/openssl@3/include \
+  -L/opt/homebrew/opt/openssl@3/lib \
+  -lssl -lcrypto
+```
+
+**Run the program:**
+```bash
+./password_checker
+```
+
 ### 🛠️ VS Code Configuration (Optional but Recommended)
 
 If you're using **Visual Studio Code** and see this error:
@@ -107,28 +176,8 @@ Update your includePath by creating *.vscode/c_cpp_properties.json*:
 }
 ```
 
-💡 After adding this file, restart VS Code and reopen your .c file to apply the changes.#
-
-### 🛠️ Build & Run
-
-**Compile the program:**
-```bash
-cc password_checker.c -o password_checker \
-  -I/opt/homebrew/opt/openssl@3/include \
-  -L/opt/homebrew/opt/openssl@3/lib \
-  -lssl -lcrypto
-```
-
-**Run the program:**
-```bash
-./password_checker
-```
+💡 After adding this file, restart VS Code and reopen your .c file to apply the changes.
 
 ### ✅ Done!
 
-Now your program securely checks a password using SHA-256 and OpenSSL. 🎉
-Feel free to extend it with features like:
-
-- password masking (getpass())
-- dynamic salt generation
-- multiple user hashes
+Now your program securely checks a password using SHA-256 and OpenSSL. 
