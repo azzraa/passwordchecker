@@ -20,7 +20,7 @@ int main() {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     const char *salt = "random_salt"; // Fixed salt for this example
 
-    // Expected hash of: "secret" + "random_salt"
+    // Paste the generated hash here:
     const unsigned char stored_hash[SHA256_DIGEST_LENGTH] = {
         0xfb, 0x28, 0xe1, 0x42, 0x69, 0xa7, 0x0d, 0xae,
         0xbe, 0x10, 0x17, 0x54, 0x3c, 0xec, 0x5e, 0x22,
