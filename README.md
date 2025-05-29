@@ -25,7 +25,7 @@ passwordchecker/
 ### ⚙️ How It Works
 
 1. User inputs a password.
-2. A salt (e.g., "random_salt") is appended to the input.
+2. A salt (e.g. "random_salt") is appended to the input.
 3. The salted password is hashed using SHA-256 via OpenSSL.
 4. The resulting hash is compared to a stored reference hash.
 5. The program prints Access Granted or Access Denied based on the result.
@@ -78,7 +78,7 @@ int main() {
 }
 ```
 
-Compile and run:
+**Compile the program:**
 ```bash
 gcc hash_generator.c -o hash_generator \
   -I/opt/homebrew/opt/openssl@3/include \
@@ -86,13 +86,14 @@ gcc hash_generator.c -o hash_generator \
   -lssl -lcrypto
 ```
 
+**Run the program:**
 ```bash
 ./hash_generator
 ```
 
 It will print out the hash byte array, which you can copy and paste as stored_hash in your password_checker.c.
 
-### 📄 password_checker.c
+### 📄 Check Password (password_checker.c)
 
 Paste the following into your password_checker.c file:
 
@@ -135,8 +136,6 @@ int main() {
 }
 ```
 
-### 🛠️ Build & Run
-
 **Compile the program:**
 ```bash
 cc password_checker.c -o password_checker \
@@ -149,29 +148,6 @@ cc password_checker.c -o password_checker \
 ```bash
 ./password_checker
 ```
-
-### 🛠️ VS Code Configuration (Optional but Recommended)
-
-If you're using **Visual Studio Code** and see this error:
-
-*include error: "openssl/sha.h" file not found*
-
-Update your includePath by creating *.vscode/c_cpp_properties.json*:
-
-```bash
-{
-    "configurations": [
-        {
-            "includePath": [
-                "${workspaceFolder}/**",
-                "/opt/homebrew/opt/openssl@3/include"
-            ],
-        }
-    ],
-}
-```
-
-💡 After adding this file, restart VS Code and reopen your .c file to apply the changes.
 
 ### ✅ Done!
 
