@@ -20,14 +20,14 @@ void print_hash_bytes(unsigned char hash[SHA256_DIGEST_LENGTH]) {
 }
 
 int main() {
-    const char *password = "secret";
+    const char *password = "mypassword";
     const char *salt = "random_salt";
     char combined[256]; // Buffer to hold password + salt concatenated
     unsigned char hash[SHA256_DIGEST_LENGTH]; // Buffer to hold the SHA-256 hash result
 
-    // Concatenate password and salt into the combined buffer safely
+    // Combine password and salt into the combined buffer
     snprintf(combined, sizeof(combined), "%s%s", password, salt);
-    // Compute the SHA-256 hash of the combined string
+    // Combine the SHA-256 hash of the combined string
     SHA256((unsigned char *)combined, strlen(combined), hash);
 
     // Print info about what is being hashed

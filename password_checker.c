@@ -4,22 +4,22 @@
 
 // Function to compute SHA-256 hash of a given input string
 void sha256(const char *str, unsigned char output[SHA256_DIGEST_LENGTH]) {
-   // SHA256() takes input bytes, length, and output buffer
+   // SHA256() takes input bytes, length and output buffer
     SHA256((unsigned char *)str, strlen(str), output);
 }
 
 int main() {
     char password[128]; // Buffer to store user-entered password
-    char salted[256]; // Buffer to store password + salt concatenation
+    char salted[256]; // Buffer to store password + salt combination
     unsigned char hash[SHA256_DIGEST_LENGTH]; // Buffer to store the computed hash output
     const char *salt = "random_salt"; // The salt string appended to the password before hashing
 
     // Paste the generated hash here:
     const unsigned char stored_hash[SHA256_DIGEST_LENGTH] = {
-    0xfb, 0x28, 0xe1, 0x42, 0x69, 0xa7, 0x0d, 0xae, 
-    0xbe, 0x10, 0x17, 0x54, 0x3c, 0xec, 0x5e, 0x22, 
-    0xeb, 0x24, 0x8e, 0x2b, 0xc9, 0x62, 0x83, 0x8d, 
-    0x3f, 0x99, 0xb3, 0x4f, 0x07, 0xdc, 0xfa, 0x70
+    0x62, 0x44, 0x4a, 0x72, 0x11, 0x86, 0xd7, 0xa3, 
+    0x1c, 0x3b, 0xd1, 0xa3, 0x84, 0x1d, 0xd8, 0xdd, 
+    0xa9, 0x55, 0xe4, 0xf2, 0x0e, 0x17, 0x0e, 0xbd, 
+    0x2d, 0x4c, 0x99, 0x09, 0x54, 0x29, 0xc8, 0x22
 };
 
     // Prompt the user to enter a password
